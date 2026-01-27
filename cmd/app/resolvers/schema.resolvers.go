@@ -8,10 +8,13 @@ package resolvers
 import (
 	"context"
 	"fmt"
-	model "go-graphql/cmd/app/domain"
-	model1 "go-graphql/cmd/app/domain/dao"
+	model "go-graphql/cmd/app/domain"		// as mutationResolver
+	model1 "go-graphql/cmd/app/domain/dao"		// as queryResolver
 	"go-graphql/graph"
 )
+
+
+// == mutationResolver ==
 
 // CreatePost is the resolver for the createPost field.
 func (r *mutationResolver) CreatePost(ctx context.Context, input model.NewPost) (*model1.Post, error) {
@@ -23,6 +26,10 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) 
 	panic(fmt.Errorf("not implemented: CreateUser - createUser"))
 }
 
+
+
+// == queryResolver ==
+
 // Posts is the resolver for the posts field.
 func (r *queryResolver) Posts(ctx context.Context) ([]*model1.Post, error) {
 	panic(fmt.Errorf("not implemented: Posts - posts"))
@@ -33,11 +40,17 @@ func (r *queryResolver) Users(ctx context.Context) ([]*model1.User, error) {
 	panic(fmt.Errorf("not implemented: Users - users"))
 }
 
+
+
+// == Resolver ==
+
 // Mutation returns graph.MutationResolver implementation.
 func (r *Resolver) Mutation() graph.MutationResolver { return &mutationResolver{r} }
 
 // Query returns graph.QueryResolver implementation.
 func (r *Resolver) Query() graph.QueryResolver { return &queryResolver{r} }
+
+
 
 type mutationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }
