@@ -7,8 +7,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	model "go-graphql/cmd/app/domain"
-	model1 "go-graphql/cmd/app/domain/dao"
+	"go-graphql/graph/model"
 	"strconv"
 	"sync"
 	"sync/atomic"
@@ -71,12 +70,12 @@ type ComplexityRoot struct {
 }
 
 type MutationResolver interface {
-	CreatePost(ctx context.Context, input model.NewPost) (*model1.Post, error)
-	CreateUser(ctx context.Context, input model.NewUser) (*model1.User, error)
+	CreatePost(ctx context.Context, input model.NewPost) (*model.Post, error)
+	CreateUser(ctx context.Context, input model.NewUser) (*model.User, error)
 }
 type QueryResolver interface {
-	Posts(ctx context.Context) ([]*model1.Post, error)
-	Users(ctx context.Context) ([]*model1.User, error)
+	Posts(ctx context.Context) ([]*model.Post, error)
+	Users(ctx context.Context) ([]*model.User, error)
 }
 
 type executableSchema struct {
@@ -324,7 +323,7 @@ var parsedSchema = gqlparser.MustLoadSchema(sources...)
 func (ec *executionContext) field_Mutation_createPost_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNNewPost2goᚑgraphqlᚋcmdᚋappᚋdomainᚐNewPost)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNNewPost2goᚑgraphqlᚋgraphᚋmodelᚐNewPost)
 	if err != nil {
 		return nil, err
 	}
@@ -335,7 +334,7 @@ func (ec *executionContext) field_Mutation_createPost_args(ctx context.Context, 
 func (ec *executionContext) field_Mutation_createUser_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNNewUser2goᚑgraphqlᚋcmdᚋappᚋdomainᚐNewUser)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNNewUser2goᚑgraphqlᚋgraphᚋmodelᚐNewUser)
 	if err != nil {
 		return nil, err
 	}
@@ -417,7 +416,7 @@ func (ec *executionContext) _Mutation_createPost(ctx context.Context, field grap
 			return ec.resolvers.Mutation().CreatePost(ctx, fc.Args["input"].(model.NewPost))
 		},
 		nil,
-		ec.marshalNPost2ᚖgoᚑgraphqlᚋcmdᚋappᚋdomainᚋdaoᚐPost,
+		ec.marshalNPost2ᚖgoᚑgraphqlᚋgraphᚋmodelᚐPost,
 		true,
 		true,
 	)
@@ -466,7 +465,7 @@ func (ec *executionContext) _Mutation_createUser(ctx context.Context, field grap
 			return ec.resolvers.Mutation().CreateUser(ctx, fc.Args["input"].(model.NewUser))
 		},
 		nil,
-		ec.marshalNUser2ᚖgoᚑgraphqlᚋcmdᚋappᚋdomainᚋdaoᚐUser,
+		ec.marshalNUser2ᚖgoᚑgraphqlᚋgraphᚋmodelᚐUser,
 		true,
 		true,
 	)
@@ -504,7 +503,7 @@ func (ec *executionContext) fieldContext_Mutation_createUser(ctx context.Context
 	return fc, nil
 }
 
-func (ec *executionContext) _Post_id(ctx context.Context, field graphql.CollectedField, obj *model1.Post) (ret graphql.Marshaler) {
+func (ec *executionContext) _Post_id(ctx context.Context, field graphql.CollectedField, obj *model.Post) (ret graphql.Marshaler) {
 	return graphql.ResolveField(
 		ctx,
 		ec.OperationContext,
@@ -533,7 +532,7 @@ func (ec *executionContext) fieldContext_Post_id(_ context.Context, field graphq
 	return fc, nil
 }
 
-func (ec *executionContext) _Post_title(ctx context.Context, field graphql.CollectedField, obj *model1.Post) (ret graphql.Marshaler) {
+func (ec *executionContext) _Post_title(ctx context.Context, field graphql.CollectedField, obj *model.Post) (ret graphql.Marshaler) {
 	return graphql.ResolveField(
 		ctx,
 		ec.OperationContext,
@@ -562,7 +561,7 @@ func (ec *executionContext) fieldContext_Post_title(_ context.Context, field gra
 	return fc, nil
 }
 
-func (ec *executionContext) _Post_description(ctx context.Context, field graphql.CollectedField, obj *model1.Post) (ret graphql.Marshaler) {
+func (ec *executionContext) _Post_description(ctx context.Context, field graphql.CollectedField, obj *model.Post) (ret graphql.Marshaler) {
 	return graphql.ResolveField(
 		ctx,
 		ec.OperationContext,
@@ -601,7 +600,7 @@ func (ec *executionContext) _Query_posts(ctx context.Context, field graphql.Coll
 			return ec.resolvers.Query().Posts(ctx)
 		},
 		nil,
-		ec.marshalNPost2ᚕᚖgoᚑgraphqlᚋcmdᚋappᚋdomainᚋdaoᚐPostᚄ,
+		ec.marshalNPost2ᚕᚖgoᚑgraphqlᚋgraphᚋmodelᚐPostᚄ,
 		true,
 		true,
 	)
@@ -638,7 +637,7 @@ func (ec *executionContext) _Query_users(ctx context.Context, field graphql.Coll
 			return ec.resolvers.Query().Users(ctx)
 		},
 		nil,
-		ec.marshalNUser2ᚕᚖgoᚑgraphqlᚋcmdᚋappᚋdomainᚋdaoᚐUserᚄ,
+		ec.marshalNUser2ᚕᚖgoᚑgraphqlᚋgraphᚋmodelᚐUserᚄ,
 		true,
 		true,
 	)
@@ -773,7 +772,7 @@ func (ec *executionContext) fieldContext_Query___schema(_ context.Context, field
 	return fc, nil
 }
 
-func (ec *executionContext) _User_id(ctx context.Context, field graphql.CollectedField, obj *model1.User) (ret graphql.Marshaler) {
+func (ec *executionContext) _User_id(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
 	return graphql.ResolveField(
 		ctx,
 		ec.OperationContext,
@@ -802,7 +801,7 @@ func (ec *executionContext) fieldContext_User_id(_ context.Context, field graphq
 	return fc, nil
 }
 
-func (ec *executionContext) _User_name(ctx context.Context, field graphql.CollectedField, obj *model1.User) (ret graphql.Marshaler) {
+func (ec *executionContext) _User_name(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
 	return graphql.ResolveField(
 		ctx,
 		ec.OperationContext,
@@ -831,7 +830,7 @@ func (ec *executionContext) fieldContext_User_name(_ context.Context, field grap
 	return fc, nil
 }
 
-func (ec *executionContext) _User_email(ctx context.Context, field graphql.CollectedField, obj *model1.User) (ret graphql.Marshaler) {
+func (ec *executionContext) _User_email(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
 	return graphql.ResolveField(
 		ctx,
 		ec.OperationContext,
@@ -2440,7 +2439,7 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 
 var postImplementors = []string{"Post"}
 
-func (ec *executionContext) _Post(ctx context.Context, sel ast.SelectionSet, obj *model1.Post) graphql.Marshaler {
+func (ec *executionContext) _Post(ctx context.Context, sel ast.SelectionSet, obj *model.Post) graphql.Marshaler {
 	fields := graphql.CollectFields(ec.OperationContext, sel, postImplementors)
 
 	out := graphql.NewFieldSet(fields)
@@ -2583,7 +2582,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 
 var userImplementors = []string{"User"}
 
-func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj *model1.User) graphql.Marshaler {
+func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj *model.User) graphql.Marshaler {
 	fields := graphql.CollectFields(ec.OperationContext, sel, userImplementors)
 
 	out := graphql.NewFieldSet(fields)
@@ -2997,21 +2996,21 @@ func (ec *executionContext) marshalNID2string(ctx context.Context, sel ast.Selec
 	return res
 }
 
-func (ec *executionContext) unmarshalNNewPost2goᚑgraphqlᚋcmdᚋappᚋdomainᚐNewPost(ctx context.Context, v any) (model.NewPost, error) {
+func (ec *executionContext) unmarshalNNewPost2goᚑgraphqlᚋgraphᚋmodelᚐNewPost(ctx context.Context, v any) (model.NewPost, error) {
 	res, err := ec.unmarshalInputNewPost(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNNewUser2goᚑgraphqlᚋcmdᚋappᚋdomainᚐNewUser(ctx context.Context, v any) (model.NewUser, error) {
+func (ec *executionContext) unmarshalNNewUser2goᚑgraphqlᚋgraphᚋmodelᚐNewUser(ctx context.Context, v any) (model.NewUser, error) {
 	res, err := ec.unmarshalInputNewUser(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) marshalNPost2goᚑgraphqlᚋcmdᚋappᚋdomainᚋdaoᚐPost(ctx context.Context, sel ast.SelectionSet, v model1.Post) graphql.Marshaler {
+func (ec *executionContext) marshalNPost2goᚑgraphqlᚋgraphᚋmodelᚐPost(ctx context.Context, sel ast.SelectionSet, v model.Post) graphql.Marshaler {
 	return ec._Post(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNPost2ᚕᚖgoᚑgraphqlᚋcmdᚋappᚋdomainᚋdaoᚐPostᚄ(ctx context.Context, sel ast.SelectionSet, v []*model1.Post) graphql.Marshaler {
+func (ec *executionContext) marshalNPost2ᚕᚖgoᚑgraphqlᚋgraphᚋmodelᚐPostᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Post) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -3035,7 +3034,7 @@ func (ec *executionContext) marshalNPost2ᚕᚖgoᚑgraphqlᚋcmdᚋappᚋdomain
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNPost2ᚖgoᚑgraphqlᚋcmdᚋappᚋdomainᚋdaoᚐPost(ctx, sel, v[i])
+			ret[i] = ec.marshalNPost2ᚖgoᚑgraphqlᚋgraphᚋmodelᚐPost(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -3055,7 +3054,7 @@ func (ec *executionContext) marshalNPost2ᚕᚖgoᚑgraphqlᚋcmdᚋappᚋdomain
 	return ret
 }
 
-func (ec *executionContext) marshalNPost2ᚖgoᚑgraphqlᚋcmdᚋappᚋdomainᚋdaoᚐPost(ctx context.Context, sel ast.SelectionSet, v *model1.Post) graphql.Marshaler {
+func (ec *executionContext) marshalNPost2ᚖgoᚑgraphqlᚋgraphᚋmodelᚐPost(ctx context.Context, sel ast.SelectionSet, v *model.Post) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			graphql.AddErrorf(ctx, "the requested element is null which the schema does not allow")
@@ -3081,11 +3080,11 @@ func (ec *executionContext) marshalNString2string(ctx context.Context, sel ast.S
 	return res
 }
 
-func (ec *executionContext) marshalNUser2goᚑgraphqlᚋcmdᚋappᚋdomainᚋdaoᚐUser(ctx context.Context, sel ast.SelectionSet, v model1.User) graphql.Marshaler {
+func (ec *executionContext) marshalNUser2goᚑgraphqlᚋgraphᚋmodelᚐUser(ctx context.Context, sel ast.SelectionSet, v model.User) graphql.Marshaler {
 	return ec._User(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNUser2ᚕᚖgoᚑgraphqlᚋcmdᚋappᚋdomainᚋdaoᚐUserᚄ(ctx context.Context, sel ast.SelectionSet, v []*model1.User) graphql.Marshaler {
+func (ec *executionContext) marshalNUser2ᚕᚖgoᚑgraphqlᚋgraphᚋmodelᚐUserᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.User) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -3109,7 +3108,7 @@ func (ec *executionContext) marshalNUser2ᚕᚖgoᚑgraphqlᚋcmdᚋappᚋdomain
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNUser2ᚖgoᚑgraphqlᚋcmdᚋappᚋdomainᚋdaoᚐUser(ctx, sel, v[i])
+			ret[i] = ec.marshalNUser2ᚖgoᚑgraphqlᚋgraphᚋmodelᚐUser(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -3129,7 +3128,7 @@ func (ec *executionContext) marshalNUser2ᚕᚖgoᚑgraphqlᚋcmdᚋappᚋdomain
 	return ret
 }
 
-func (ec *executionContext) marshalNUser2ᚖgoᚑgraphqlᚋcmdᚋappᚋdomainᚋdaoᚐUser(ctx context.Context, sel ast.SelectionSet, v *model1.User) graphql.Marshaler {
+func (ec *executionContext) marshalNUser2ᚖgoᚑgraphqlᚋgraphᚋmodelᚐUser(ctx context.Context, sel ast.SelectionSet, v *model.User) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			graphql.AddErrorf(ctx, "the requested element is null which the schema does not allow")

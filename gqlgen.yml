@@ -28,8 +28,8 @@ exec:
 
 # Where should any generated models go?
 model:
-  # filename: graph/model/models_gen.go # revise
-  filename: cmd/app/domain/dto_graphsql_gen.go
+  filename: graph/model/models_gen.go
+  # filename: cmd/app/domain/dto_graphsql_gen.go
   package: model
 
   # Optional: Pass in a path to a new gotpl template to use for generating the models
@@ -46,7 +46,7 @@ resolver:
 
   # Only for follow-schema layout:
   # dir: graph
-  dir: cmd/app/resolvers
+  dir: cmd/gateway/resolvers
   filename_template: "{name}.resolvers.go"
 
   # Optional: turn on to not generate template comments above resolvers
@@ -125,9 +125,9 @@ resolver:
 
 # gqlgen will search for any type names in the schema in these go packages
 # if they match it will use them, otherwise it will generate them.
-autobind:
+# autobind:
 #  - "github.com/carissafarry/go-graphql/graph/model"
- - "go-graphql/cmd/app/domain/dao"
+#  - "go-graphql/internal/domain/dao"
 
 # This section declares type mapping between the GraphQL and go type systems
 #
@@ -169,14 +169,11 @@ models:
   #     - github.com/99designs/gqlgen/graphql.Int64
 
   # new
-  User:
-    model: go-graphql/cmd/app/domain/dao.User
+  # User:
+  #   model: go-graphql/cmd/app/domain/dao.User
 
-  Post:
-    model: go-graphql/cmd/app/domain/dao.Post
-    fields:
-      user:
-        resolver: true
-    
-
-
+  # Post:
+  #   model: go-graphql/cmd/app/domain/dao.Post
+  #   fields:
+  #     user:
+  #       resolver: true
