@@ -12,15 +12,15 @@ import (
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/joho/godotenv"
 	"github.com/vektah/gqlparser/v2/ast"
-	"go-graphql/cmd/gateway/resolvers"
-	"go-graphql/graph"
+	"go-graphql/internal/transport/graphql/resolvers"
+	"go-graphql/internal/transport/graphql/graph"
 
 	// domain Usecase
 	"go-graphql/internal/domain/post"
 	"go-graphql/internal/domain/user"
 
 	// infra
-	"go-graphql/internal/infra/postgres"
+	"go-graphql/internal/infra/db/postgres"
 )
 
 const defaultPort = "8080"

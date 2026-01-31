@@ -1,7 +1,7 @@
 # Where are all the schema files located? globs are supported eg  src/**/*.graphqls
 schema:
   # - graph/*.graphqls
-  - schema/*.graphqls # revise
+  - internal/transport/graphql/schema/*.graphqls # revise
 
 # Where should the generated server code go?
 exec:
@@ -9,7 +9,7 @@ exec:
   # layout: single-file # Only other option is "follow-schema," ie multi-file.
 
   # Only for single-file layout:
-  filename: graph/generated.go
+  filename: internal/transport/graphql/graph/generated.go
 
   # Only for follow-schema layout:
   # dir: graph
@@ -28,7 +28,7 @@ exec:
 
 # Where should any generated models go?
 model:
-  filename: graph/model/models_gen.go
+  filename: internal/transport/graphql/model/models_gen.go
   # filename: cmd/app/domain/dto_graphsql_gen.go
   package: model
 
@@ -46,7 +46,7 @@ resolver:
 
   # Only for follow-schema layout:
   # dir: graph
-  dir: cmd/gateway/resolvers
+  dir: internal/transport/graphql/resolvers
   filename_template: "{name}.resolvers.go"
 
   # Optional: turn on to not generate template comments above resolvers

@@ -7,7 +7,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"go-graphql/graph/model"
+	"go-graphql/internal/transport/graphql/model"
 	"strconv"
 	"sync"
 	"sync/atomic"
@@ -278,7 +278,7 @@ func (ec *executionContext) introspectType(name string) (*introspection.Type, er
 }
 
 var sources = []*ast.Source{
-	{Name: "../schema/schema.graphqls", Input: `# GraphQL schema example
+	{Name: "../../../../schema/schema.graphqls", Input: `# GraphQL schema example
 #
 # https://gqlgen.com/getting-started/
 
@@ -323,7 +323,7 @@ var parsedSchema = gqlparser.MustLoadSchema(sources...)
 func (ec *executionContext) field_Mutation_createPost_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNNewPost2goᚑgraphqlᚋgraphᚋmodelᚐNewPost)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNNewPost2goᚑgraphqlᚋinternalᚋtransportᚋgraphqlᚋmodelᚐNewPost)
 	if err != nil {
 		return nil, err
 	}
@@ -334,7 +334,7 @@ func (ec *executionContext) field_Mutation_createPost_args(ctx context.Context, 
 func (ec *executionContext) field_Mutation_createUser_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNNewUser2goᚑgraphqlᚋgraphᚋmodelᚐNewUser)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNNewUser2goᚑgraphqlᚋinternalᚋtransportᚋgraphqlᚋmodelᚐNewUser)
 	if err != nil {
 		return nil, err
 	}
@@ -416,7 +416,7 @@ func (ec *executionContext) _Mutation_createPost(ctx context.Context, field grap
 			return ec.resolvers.Mutation().CreatePost(ctx, fc.Args["input"].(model.NewPost))
 		},
 		nil,
-		ec.marshalNPost2ᚖgoᚑgraphqlᚋgraphᚋmodelᚐPost,
+		ec.marshalNPost2ᚖgoᚑgraphqlᚋinternalᚋtransportᚋgraphqlᚋmodelᚐPost,
 		true,
 		true,
 	)
@@ -465,7 +465,7 @@ func (ec *executionContext) _Mutation_createUser(ctx context.Context, field grap
 			return ec.resolvers.Mutation().CreateUser(ctx, fc.Args["input"].(model.NewUser))
 		},
 		nil,
-		ec.marshalNUser2ᚖgoᚑgraphqlᚋgraphᚋmodelᚐUser,
+		ec.marshalNUser2ᚖgoᚑgraphqlᚋinternalᚋtransportᚋgraphqlᚋmodelᚐUser,
 		true,
 		true,
 	)
@@ -600,7 +600,7 @@ func (ec *executionContext) _Query_posts(ctx context.Context, field graphql.Coll
 			return ec.resolvers.Query().Posts(ctx)
 		},
 		nil,
-		ec.marshalNPost2ᚕᚖgoᚑgraphqlᚋgraphᚋmodelᚐPostᚄ,
+		ec.marshalNPost2ᚕᚖgoᚑgraphqlᚋinternalᚋtransportᚋgraphqlᚋmodelᚐPostᚄ,
 		true,
 		true,
 	)
@@ -637,7 +637,7 @@ func (ec *executionContext) _Query_users(ctx context.Context, field graphql.Coll
 			return ec.resolvers.Query().Users(ctx)
 		},
 		nil,
-		ec.marshalNUser2ᚕᚖgoᚑgraphqlᚋgraphᚋmodelᚐUserᚄ,
+		ec.marshalNUser2ᚕᚖgoᚑgraphqlᚋinternalᚋtransportᚋgraphqlᚋmodelᚐUserᚄ,
 		true,
 		true,
 	)
@@ -2996,21 +2996,21 @@ func (ec *executionContext) marshalNID2string(ctx context.Context, sel ast.Selec
 	return res
 }
 
-func (ec *executionContext) unmarshalNNewPost2goᚑgraphqlᚋgraphᚋmodelᚐNewPost(ctx context.Context, v any) (model.NewPost, error) {
+func (ec *executionContext) unmarshalNNewPost2goᚑgraphqlᚋinternalᚋtransportᚋgraphqlᚋmodelᚐNewPost(ctx context.Context, v any) (model.NewPost, error) {
 	res, err := ec.unmarshalInputNewPost(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNNewUser2goᚑgraphqlᚋgraphᚋmodelᚐNewUser(ctx context.Context, v any) (model.NewUser, error) {
+func (ec *executionContext) unmarshalNNewUser2goᚑgraphqlᚋinternalᚋtransportᚋgraphqlᚋmodelᚐNewUser(ctx context.Context, v any) (model.NewUser, error) {
 	res, err := ec.unmarshalInputNewUser(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) marshalNPost2goᚑgraphqlᚋgraphᚋmodelᚐPost(ctx context.Context, sel ast.SelectionSet, v model.Post) graphql.Marshaler {
+func (ec *executionContext) marshalNPost2goᚑgraphqlᚋinternalᚋtransportᚋgraphqlᚋmodelᚐPost(ctx context.Context, sel ast.SelectionSet, v model.Post) graphql.Marshaler {
 	return ec._Post(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNPost2ᚕᚖgoᚑgraphqlᚋgraphᚋmodelᚐPostᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Post) graphql.Marshaler {
+func (ec *executionContext) marshalNPost2ᚕᚖgoᚑgraphqlᚋinternalᚋtransportᚋgraphqlᚋmodelᚐPostᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Post) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -3034,7 +3034,7 @@ func (ec *executionContext) marshalNPost2ᚕᚖgoᚑgraphqlᚋgraphᚋmodelᚐPo
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNPost2ᚖgoᚑgraphqlᚋgraphᚋmodelᚐPost(ctx, sel, v[i])
+			ret[i] = ec.marshalNPost2ᚖgoᚑgraphqlᚋinternalᚋtransportᚋgraphqlᚋmodelᚐPost(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -3054,7 +3054,7 @@ func (ec *executionContext) marshalNPost2ᚕᚖgoᚑgraphqlᚋgraphᚋmodelᚐPo
 	return ret
 }
 
-func (ec *executionContext) marshalNPost2ᚖgoᚑgraphqlᚋgraphᚋmodelᚐPost(ctx context.Context, sel ast.SelectionSet, v *model.Post) graphql.Marshaler {
+func (ec *executionContext) marshalNPost2ᚖgoᚑgraphqlᚋinternalᚋtransportᚋgraphqlᚋmodelᚐPost(ctx context.Context, sel ast.SelectionSet, v *model.Post) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			graphql.AddErrorf(ctx, "the requested element is null which the schema does not allow")
@@ -3080,11 +3080,11 @@ func (ec *executionContext) marshalNString2string(ctx context.Context, sel ast.S
 	return res
 }
 
-func (ec *executionContext) marshalNUser2goᚑgraphqlᚋgraphᚋmodelᚐUser(ctx context.Context, sel ast.SelectionSet, v model.User) graphql.Marshaler {
+func (ec *executionContext) marshalNUser2goᚑgraphqlᚋinternalᚋtransportᚋgraphqlᚋmodelᚐUser(ctx context.Context, sel ast.SelectionSet, v model.User) graphql.Marshaler {
 	return ec._User(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNUser2ᚕᚖgoᚑgraphqlᚋgraphᚋmodelᚐUserᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.User) graphql.Marshaler {
+func (ec *executionContext) marshalNUser2ᚕᚖgoᚑgraphqlᚋinternalᚋtransportᚋgraphqlᚋmodelᚐUserᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.User) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -3108,7 +3108,7 @@ func (ec *executionContext) marshalNUser2ᚕᚖgoᚑgraphqlᚋgraphᚋmodelᚐUs
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNUser2ᚖgoᚑgraphqlᚋgraphᚋmodelᚐUser(ctx, sel, v[i])
+			ret[i] = ec.marshalNUser2ᚖgoᚑgraphqlᚋinternalᚋtransportᚋgraphqlᚋmodelᚐUser(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -3128,7 +3128,7 @@ func (ec *executionContext) marshalNUser2ᚕᚖgoᚑgraphqlᚋgraphᚋmodelᚐUs
 	return ret
 }
 
-func (ec *executionContext) marshalNUser2ᚖgoᚑgraphqlᚋgraphᚋmodelᚐUser(ctx context.Context, sel ast.SelectionSet, v *model.User) graphql.Marshaler {
+func (ec *executionContext) marshalNUser2ᚖgoᚑgraphqlᚋinternalᚋtransportᚋgraphqlᚋmodelᚐUser(ctx context.Context, sel ast.SelectionSet, v *model.User) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			graphql.AddErrorf(ctx, "the requested element is null which the schema does not allow")

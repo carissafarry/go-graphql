@@ -3,8 +3,8 @@ package resolvers
 import (
 	"context"
 
-	graph "go-graphql/graph"
-	model "go-graphql/graph/model"
+	graph "go-graphql/internal/transport/graphql/graph"
+	model "go-graphql/internal/transport/graphql/model"
 )
 
 func (r *queryResolver) Posts(ctx context.Context) ([]*model.Post, error) {
