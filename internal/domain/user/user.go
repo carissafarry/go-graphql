@@ -1,13 +1,13 @@
 package user
 
-// type User struct {
-// 	ID    string `json:"id"`
-// 	Name  string `json:"name"`
-// 	Email string `json:"email"`
-// }
+import "time"
 
 type User struct {
 	ID    string
-	Name  string
 	Email string
+	FullName string
+	Password string
+	Role string
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }

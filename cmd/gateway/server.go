@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"log"
 	"net/http"
 	"os"
@@ -11,6 +12,7 @@ import (
 	"github.com/99designs/gqlgen/graphql/handler/transport"
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/joho/godotenv"
+	"github.com/redis/go-redis/v9"
 	"github.com/vektah/gqlparser/v2/ast"
 	"go-graphql/internal/transport/graphql/resolvers"
 	"go-graphql/internal/transport/graphql/graph"
@@ -21,6 +23,8 @@ import (
 
 	// infra
 	"go-graphql/internal/infra/db/postgres"
+	"go-graphql/internal/infra/security"
+	redisinfra "go-graphql/internal/infra/cache/redis"
 )
 
 const defaultPort = "8080"
@@ -56,6 +60,20 @@ func main() {
 
 
 	// =========================
+	// REDIS
+	// =========================
+	redisClient := redis.NewClient(&redis.Options{
+		Addr:     os.Getenv("REDIS_ADDR"), // e.g. localhost:6379
+		Password: os.Getenv("REDIS_PASSWORD"),
+		DB:       0,
+	})
+
+	if err := redisClient.Ping(context.Background()).Err(); err != nil {
+		log.Fatalf("failed to connect redis: %v", err)
+	}
+
+
+	// =========================
 	// REPOSITORIES
 	// =========================
 	userRepo := postgres.NewUserRepo(userDB)
@@ -63,9 +81,22 @@ func main() {
 
 
 	// =========================
+	// INFRA IMPLEMENTATIONS
+	// =========================
+	pendingUserStore := redisinfra.NewPendingUserStore(redisClient) 
+	otpStore := redisinfra.NewOTPStore(redisClient) 
+	otpGenerator := security.NewOTPGenerator()
+
+
+	// =========================
 	// USECASES
 	// =========================
-	userUsecase := user.NewUsecase(userRepo)
+	userUsecase := user.NewUsecase(
+		userRepo,
+		pendingUserStore,
+		otpStore,
+		otpGenerator,
+	)
 	postUsecase := post.NewUsecase(postRepo)
 
 

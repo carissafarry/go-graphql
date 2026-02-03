@@ -1,0 +1,10 @@
+# GraphQL schema example
+#
+# https://gqlgen.com/getting-started/
+
+type Mutation {
+  createPost(input: NewPost!): Post!
+  createUser(input: NewUser!): User!
+  register(input: RegisterInput!): Boolean!
+  verifyOTP(input: VerifyOTPInput!): Boolean!
+}

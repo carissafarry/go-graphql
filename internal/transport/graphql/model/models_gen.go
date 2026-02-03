@@ -11,8 +11,8 @@ type NewPost struct {
 }
 
 type NewUser struct {
-	Name  string `json:"name"`
-	Email string `json:"email"`
+	FullName string `json:"fullName"`
+	Email    string `json:"email"`
 }
 
 type Post struct {
@@ -24,8 +24,18 @@ type Post struct {
 type Query struct {
 }
 
+type RegisterInput struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
 type User struct {
-	ID    string `json:"id"`
-	Name  string `json:"name"`
+	ID       string `json:"id"`
+	FullName string `json:"fullName"`
+	Email    string `json:"email"`
+}
+
+type VerifyOTPInput struct {
 	Email string `json:"email"`
+	Otp   string `json:"otp"`
 }

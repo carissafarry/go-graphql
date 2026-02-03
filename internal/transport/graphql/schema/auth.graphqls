@@ -1,0 +1,9 @@
+input RegisterInput {
+  email: String!
+  password: String!
+}
+
+input VerifyOTPInput {
+  email: String!
+  otp: String!
+}
