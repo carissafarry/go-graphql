@@ -13,9 +13,6 @@ import (
 // Notes: Resolver will be used in {*}.resolvers.go
 
 type Resolver struct{
-	// UserRepo user.Repository
-	// PostRepo post.Repository
-
 	UserUsecase *user.Usecase
 	PostUsecase *post.Usecase
 }

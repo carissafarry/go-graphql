@@ -1,0 +1,14 @@
+# GraphQL schema example
+#
+# https://gqlgen.com/getting-started/
+
+type Post {
+  id: ID!
+  title: String!
+  description: String!
+}
+
+input NewPost {
+  title: String!
+  description: String!
+}
