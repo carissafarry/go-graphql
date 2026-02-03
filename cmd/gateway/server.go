@@ -62,8 +62,21 @@ func main() {
 	// =========================
 	// REDIS
 	// =========================
+	host := os.Getenv("REDIS_HOST")
+	if host == "" {
+		host = "redis"
+	}
+
+	redisPort := os.Getenv("REDIS_PORT")
+	if redisPort == "" {
+		redisPort = "6379"
+	}
+
+	addr := host + ":" + redisPort
+
+	log.Printf("REDIS ADDR = %s", addr)
 	redisClient := redis.NewClient(&redis.Options{
-		Addr:     os.Getenv("REDIS_ADDR"), // e.g. localhost:6379
+		Addr:     addr, // e.g. localhost:6379
 		Password: os.Getenv("REDIS_PASSWORD"),
 		DB:       0,
 	})
