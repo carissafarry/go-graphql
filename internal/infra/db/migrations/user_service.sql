@@ -1,6 +1,25 @@
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
-    name TEXT NOT NULL,
+
     email TEXT NOT NULL UNIQUE,
-    created_at TIMESTAMP DEFAULT NOW()
+    full_name TEXT NOT NULL,
+    password TEXT NOT NULL,
+
+    role TEXT NOT NULL DEFAULT 'user',
+
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP NOT NULL
 );
+
+CREATE OR REPLACE FUNCTION set_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = NOW();
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER users_updated_at
+BEFORE UPDATE ON users
+FOR EACH ROW
+EXECUTE FUNCTION set_updated_at();
