@@ -4,7 +4,7 @@ import "go-graphql/internal/infra/config"
 
 func LoadConfig(prefix string) Config {
 	return Config{
-		Host:     config.GetEnv(prefix+"_HOST", "localhost"),
+		Host:     config.GetEnv(prefix+"_HOST", "postgres"),
 		Port:     config.GetEnvAsInt(prefix+"_PORT", 5432),
 		User:     config.GetEnv(prefix+"_USER", "postgres"),
 		Password: config.GetEnv(prefix+"_PASSWORD", ""),
