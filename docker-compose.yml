@@ -2,7 +2,9 @@ version: "3.9"
 
 services:
   postgres:
-    image: postgres:16-alpine
+    build:
+      context: .
+      dockerfile: ./deployment/docker/Dockerfile.postgres
     ports:
       - "5432:5432"
     environment:
@@ -44,7 +46,7 @@ services:
   gateway:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: ./deployment/docker/Dockerfile
     ports:
       - "8080:8080"
     env_file:

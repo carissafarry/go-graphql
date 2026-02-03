@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"log"
 	"time"
 
 	_ "github.com/lib/pq"
@@ -28,6 +29,7 @@ func NewPostgres(cfg Config) (*sql.DB, error) {
 		cfg.DBName,
 		cfg.SSLMode,
 	)
+	log.Printf("DB DSN = %s", dsn)
 	db, err := sql.Open("postgres", dsn)
 	if err != nil {
 		return nil, err
