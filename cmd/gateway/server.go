@@ -91,6 +91,7 @@ func main() {
 	// =========================
 	userRepo := postgres.NewUserRepo(userDB)
 	postRepo := postgres.NewPostRepo(postDB)
+	userValidator := user.NewValidator()
 
 
 	// =========================
@@ -109,6 +110,7 @@ func main() {
 		pendingUserStore,
 		otpStore,
 		otpGenerator,
+		userValidator,
 	)
 	postUsecase := post.NewUsecase(postRepo)
 

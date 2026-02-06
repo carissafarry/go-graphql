@@ -2,8 +2,6 @@ package user
 
 import (
 	"context"
-	"errors"
-	"strings"
 	"time"
 
 	"golang.org/x/crypto/bcrypt"
@@ -14,10 +12,7 @@ type Usecase struct {
 	pendingUserRepo PendingUserStore
 	otpRepo         OTPStore
 	otpGen          OTPGenerator
-}
-
-type OTPGenerator interface {
-	GenerateOTP() (string, error)
+	validator       Validator
 }
 
 func NewUsecase(
@@ -25,12 +20,14 @@ func NewUsecase(
 	pendingUserRepo PendingUserStore,
 	otpRepo OTPStore,
 	otpGen OTPGenerator,
+	validator Validator,
 ) *Usecase {
 	return &Usecase{
 		repo:            repo,
 		pendingUserRepo: pendingUserRepo,
 		otpRepo:         otpRepo,
 		otpGen:          otpGen,
+		validator:       validator,
 	}
 }
 
@@ -43,12 +40,9 @@ func (u *Usecase) CreateUser(
 	fullName string,
 	email string,
 ) (*User, error) {
-	// Validation
-	if strings.TrimSpace(fullName) == "" {
-		return nil, errors.New("fullName is required")
-	}
-	if strings.TrimSpace(email) == "" {
-		return nil, errors.New("email is required")
+
+	if err := u.validator.ValidateCreateUser(fullName, email); err != nil {
+		return nil, err
 	}
 
 	user := &User{
@@ -70,6 +64,10 @@ func (u *Usecase) Register(
 	email string,
 	password string,
 ) error {
+
+	if err := u.validator.ValidateRegister(email, password); err != nil {
+		return err
+	}
 
 	existing, err := u.repo.FindByEmail(ctx, email)
 	if err != nil {
@@ -119,6 +117,10 @@ func (u *Usecase) VerifyOTP(
 	email string,
 	otp string,
 ) error {
+
+	if err := u.validator.ValidateVerifyOTP(email, otp); err != nil {
+		return err
+	}
 
 	savedOTP, err := u.otpRepo.Find(ctx, email)
 	if err != nil || savedOTP != otp {
