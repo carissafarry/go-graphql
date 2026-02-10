@@ -2,17 +2,18 @@ package redis
 
 import (
 	"context"
+	"errors"
 	"time"
 
 	"github.com/redis/go-redis/v9"
 )
 
 type OTPStore struct {
-	client *redis.Client
+	cache Cache
 }
 
-func NewOTPStore(client *redis.Client) *OTPStore {
-	return &OTPStore{client: client}
+func NewOTPStore(cache Cache) *OTPStore {
+	return &OTPStore{cache: cache}
 }
 
 func (r *OTPStore) Save(
@@ -21,26 +22,33 @@ func (r *OTPStore) Save(
 	otp string,
 	ttl time.Duration,
 ) error {
-	return r.client.SetEx(
+	return r.cache.Set(
 		ctx,
 		r.key(email),
-		otp,
+		[]byte(otp),
 		ttl,
-	).Err()
+	)
 }
 
 func (r *OTPStore) Find(
 	ctx context.Context,
 	email string,
 ) (string, error) {
-	return r.client.Get(ctx, r.key(email)).Result()
+	data, err := r.cache.Get(ctx, r.key(email))
+	if err != nil {
+		if errors.Is(err, redis.Nil) {
+			return "", ErrOTPNotFound
+		}
+		return "", err
+	}
+	return string(data), nil
 }
 
 func (r *OTPStore) Delete(
 	ctx context.Context,
 	email string,
 ) error {
-	return r.client.Del(ctx, r.key(email)).Err()
+	return r.cache.Delete(ctx, r.key(email))
 }
 
 func (r *OTPStore) key(email string) string {

@@ -25,6 +25,8 @@ import (
 	"go-graphql/internal/infra/db/postgres"
 	"go-graphql/internal/infra/security"
 	redisinfra "go-graphql/internal/infra/cache/redis"
+
+	httphandler "go-graphql/internal/transport/http/handler"
 )
 
 const defaultPort = "8080"
@@ -87,6 +89,12 @@ func main() {
 
 
 	// =========================
+	// HEALTHCHECK HANDLER
+	// =========================
+	healthHandler := httphandler.NewHealthHandler(redisClient)
+
+
+	// =========================
 	// REPOSITORIES
 	// =========================
 	userRepo := postgres.NewUserRepo(userDB)
@@ -95,10 +103,16 @@ func main() {
 
 
 	// =========================
+	// REDIS CACHE (ABSTRACTION)
+	// =========================
+	redisCache := redisinfra.NewRedisCache(redisClient)
+
+	
+	// =========================
 	// INFRA IMPLEMENTATIONS
 	// =========================
-	pendingUserStore := redisinfra.NewPendingUserStore(redisClient) 
-	otpStore := redisinfra.NewOTPStore(redisClient) 
+	pendingUserStore := redisinfra.NewPendingUserStore(redisCache) 
+	otpStore := redisinfra.NewOTPStore(redisCache) 
 	otpGenerator := security.NewOTPGenerator()
 
 
@@ -142,6 +156,7 @@ func main() {
 
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
 	http.Handle("/query", srv)
+	http.Handle("/health", healthHandler)
 
 	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
 	log.Fatal(http.ListenAndServe(":"+port, nil))
