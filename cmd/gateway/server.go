@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/handler/extension"
@@ -105,7 +106,10 @@ func main() {
 	// =========================
 	// REDIS CACHE (ABSTRACTION)
 	// =========================
-	redisCache := redisinfra.NewRedisCache(redisClient)
+	redisCache := redisinfra.NewRedisCache(
+		redisClient,
+		redisinfra.Options{DefaultTTL: 5 * time.Minute},
+	)
 
 	
 	// =========================

@@ -90,7 +90,7 @@ func (u *Usecase) Register(
 	if err := u.pendingUserRepo.Save(
 		ctx,
 		pendingUser,
-		30*time.Minute,
+		15*time.Minute,
 	); err != nil {
 		return err
 	}

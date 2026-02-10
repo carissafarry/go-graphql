@@ -15,14 +15,33 @@ type Cache interface {
 
 type RedisCache struct {
     client *redis.Client
+	defaultTTL time.Duration
 }
 
-func NewRedisCache(client *redis.Client) *RedisCache {
-    return &RedisCache{client: client}
+type Options struct {
+	DefaultTTL time.Duration
+}
+
+func NewRedisCache(
+	client *redis.Client,
+	opts ...Options,
+) *RedisCache {
+    cache := &RedisCache{client: client, defaultTTL: defaultTTL}
+
+	if len(opts) > 0 {
+		cache.defaultTTL = opts[0].DefaultTTL
+	}
+	return cache
 }
 
 func (r *RedisCache) Set(ctx context.Context, key string, val []byte, ttl time.Duration) error {
-    return r.client.SetEx(ctx, key, val, ttl).Err()
+	if ttl <= 0{
+		ttl = r.defaultTTL
+	}
+	if ttl > 0 {
+		return r.client.SetEx(ctx, key, val, ttl).Err()
+	}
+	return r.client.Set(ctx, key, val, 0).Err()
 }
 
 func (r *RedisCache) Get(ctx context.Context, key string) ([]byte, error) {
