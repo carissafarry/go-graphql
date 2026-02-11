@@ -26,7 +26,7 @@ func NewRedisCache(
 	client *redis.Client,
 	opts ...Options,
 ) *RedisCache {
-    cache := &RedisCache{client: client, defaultTTL: defaultTTL}
+    cache := &RedisCache{client: client}
 
 	if len(opts) > 0 {
 		cache.defaultTTL = opts[0].DefaultTTL
@@ -41,7 +41,7 @@ func (r *RedisCache) Set(ctx context.Context, key string, val []byte, ttl time.D
 	if ttl > 0 {
 		return r.client.SetEx(ctx, key, val, ttl).Err()
 	}
-	return r.client.Set(ctx, key, val, 0).Err()
+	return r.client.Set(ctx, key, val, 0).Err() // if ttl < 0, no expiration
 }
 
 func (r *RedisCache) Get(ctx context.Context, key string) ([]byte, error) {
