@@ -3,19 +3,20 @@ package redis
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"time"
 
-	"go-graphql/internal/domain/user"
-
 	"github.com/redis/go-redis/v9"
+
+	"go-graphql/internal/domain/user"
 )
 
 type PendingUserStore struct {
-	client *redis.Client
+	cache Cache
 }
 
-func NewPendingUserStore(client *redis.Client) *PendingUserStore {
-	return &PendingUserStore{client: client}
+func NewPendingUserStore(cache Cache) *PendingUserStore {
+	return &PendingUserStore{cache: cache}
 }
 
 func (r *PendingUserStore) Save(
@@ -30,7 +31,7 @@ func (r *PendingUserStore) Save(
 	}
 
 	key := r.key(u.Email)
-	return r.client.SetEx(ctx, key, data, ttl).Err()
+	return r.cache.Set(ctx, key, data, ttl)
 }
 
 func (r *PendingUserStore) Find(
@@ -38,13 +39,16 @@ func (r *PendingUserStore) Find(
 	email string,
 ) (*user.PendingUser, error) {
 
-	val, err := r.client.Get(ctx, r.key(email)).Result()
+	data, err := r.cache.Get(ctx, r.key(email))
 	if err != nil {
+		if errors.Is(err, redis.Nil) {
+			return nil, ErrPendingUserNotFound
+		}
 		return nil, err
 	}
 
 	var u user.PendingUser
-	if err := json.Unmarshal([]byte(val), &u); err != nil {
+	if err := json.Unmarshal(data, &u); err != nil {
 		return nil, err
 	}
 
@@ -55,7 +59,7 @@ func (r *PendingUserStore) Delete(
 	ctx context.Context,
 	email string,
 ) error {
-	return r.client.Del(ctx, r.key(email)).Err()
+	return r.cache.Delete(ctx, r.key(email))
 }
 
 func (r *PendingUserStore) key(email string) string {
