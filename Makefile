@@ -24,6 +24,7 @@ help:
 	@echo ""
 	@echo "  make down           Stop all containers"
 	@echo "  make logs           Tail logs"
+	@echo "  make logs-worker    Tail worker logs"
 	@echo "  make ps             Show running containers"
 	@echo ""
 	@echo "  make migrate        Run DB migrations"
@@ -95,6 +96,10 @@ logs:
 .PHONY: ps
 ps:
 	$(COMPOSE) ps
+
+.PHONY: logs-worker
+logs-worker:
+	$(COMPOSE) logs -f worker
 
 # =========================
 # DATABASE

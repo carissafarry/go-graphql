@@ -61,6 +61,18 @@ services:
     networks:
       - local-app-network
 
+  worker:
+    build:
+      context: .
+      dockerfile: ./deployment/docker/Dockerfile.worker
+    env_file:
+      - .env
+    depends_on:
+      redis:
+        condition: service_started
+    networks:
+      - local-app-network
+
 volumes:
   postgres_data:
   
