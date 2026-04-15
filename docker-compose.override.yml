@@ -19,5 +19,3 @@ services:
         condition: service_started
       rabbitmq:
         condition: service_started
-    networks:
-      - local-app-network
